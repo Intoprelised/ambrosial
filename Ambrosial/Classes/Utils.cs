@@ -182,7 +182,7 @@ namespace Ambrosial.Ambrosial
         static WebClient client = new WebClient();
         public static string request(string link)
         {
-            return client.DownloadString(link);
+            return  client.DownloadStringTaskAsync(new Uri(link)).Result.ToString();
         }
     }
 }

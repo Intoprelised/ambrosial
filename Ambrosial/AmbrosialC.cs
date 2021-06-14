@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,62 @@ namespace Ambrosial.Ambrosial
             Utils.log("Attempting to get installed version");
             installedVersion = Utils.getVer();
             Utils.log("Found installed game version: " + installedVersion);
-            Packet jsonpacket = new Packet(Utils.request("https://sefrum.tech/Ambrosial/main.json"));
+
+            // Make empty packet
+            Packet jsonpacket = new Packet(null);
+
+            // URL to encrypted JSON with serialized clients
+            string requestEnd = "https://sefrum.tech/Ambrosial/main.json";
+
+        getPkt:
+            // Attempt to get info
+            try
+            {
+                string result = Utils.request(requestEnd);
+                // Error will be thrown before it can reach this
+                jsonpacket = new Packet(Utils.request(requestEnd));
+                File.WriteAllText(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json", result);
+                Utils.log($"Downloaded & cached clients.");
+            }
+            catch
+            {
+                // sorta spaghetti code but it works
+
+                DialogResult dialogResult = MessageBox.Show("Server couldnt be contacted. Do you wish to use the client cache?", "Error", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    if (File.Exists(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json"))
+                    {
+                        jsonpacket = new Packet(File.ReadAllText(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json"));
+                    }
+                    else
+                    {
+                        DialogResult dialogResult2 = MessageBox.Show("Cache has not been made yet. Do you wish to redirect the request URL?", "Error", MessageBoxButtons.YesNo);
+                        if (dialogResult2 == DialogResult.Yes)
+                        {
+                            string url = Microsoft.VisualBasic.Interaction.InputBox("Change request URL", "Ambrosial", "");
+                            if(url != "" && url != null)
+                            {
+                                requestEnd = url;
+                                goto getPkt;
+                            }
+                            else
+                            {
+                                Process.GetCurrentProcess().Kill();
+                            }
+                        }
+                        else
+                        {
+                            Process.GetCurrentProcess().Kill();
+                        }
+                    }
+                }
+                else
+                    Process.GetCurrentProcess().Kill();
+            }
+
+
+
             foreach (Client c in jsonpacket.getData())
             {
                 if (!versionRegistry.Any(gver => gver.name == c.version))

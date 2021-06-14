@@ -38,6 +38,16 @@ namespace Ambrosial.Ambrosial.Classes
         }
 
 
+        // For decrypting after packet was made
+        public void decryptPacket2()
+        {
+            string decryptedBasePacket = Cipher.DecryptBase64(packetData);
+            string[] packInfo = decryptedBasePacket.Split(new string[] { "[AmbrosialPacket]" }, StringSplitOptions.RemoveEmptyEntries);
+            this.key = packInfo[1];
+            this.packetData = packInfo[0];
+            this.decryptPacket();
+        }
+
         public void decryptPacket()
         {
             Utils.log("Decrypted packet at " + DateTime.Now.ToString());

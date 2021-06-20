@@ -29,22 +29,28 @@ namespace Ambrosial.Ambrosial
             Packet jsonpacket = new Packet(null);
 
             // URL to encrypted JSON with serialized clients
-            string requestEnd = "https://sefrum.tech/Ambrosial/main.json";
+            string requestEnd = "https://sefrum.tech/Ambrosial/serverclients.json";
 
         getPkt:
             // Attempt to get info
             try
             {
                 string result = Utils.request(requestEnd);
+                if(result == "")
+                    throw new JsonException("JSON could not be downloaded");
+
                 // Error will be thrown before it can reach this
                 jsonpacket = new Packet(Utils.request(requestEnd));
                 File.WriteAllText(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json", result);
                 Utils.log($"Downloaded & cached clients.");
             }
-            catch
+            catch(Exception e)
             {
-                // sorta spaghetti code but it works
+                // error logging
+                MessageBox.Show("Error!\n" + e.Message.ToString() + "\n\nStacktrace: \n" + e.StackTrace.ToString(), "Error");
 
+
+                // sorta spaghetti code but it works
                 DialogResult dialogResult = MessageBox.Show("Server couldnt be contacted. Do you wish to use the client cache?", "Error", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {

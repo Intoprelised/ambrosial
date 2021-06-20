@@ -179,10 +179,12 @@ namespace Ambrosial.Ambrosial
                 return serializer.Deserialize(reader);
             }
         }
-        static WebClient client = new WebClient();
+
         public static string request(string link)
         {
-            return  client.DownloadStringTaskAsync(new Uri(link)).Result.ToString();
+            // async breaks this somehow
+            using(WebClient client = new WebClient())
+                return client.DownloadString(link);
         }
     }
 }

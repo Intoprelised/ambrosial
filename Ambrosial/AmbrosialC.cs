@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -41,6 +41,11 @@ namespace Ambrosial.Ambrosial
 
                 // Error will be thrown before it can reach this
                 jsonpacket = new Packet(Utils.request(requestEnd));
+
+                // Make folder to fix error...
+                Directory.CreateDirectory(Utils.ambrosialPath + $@"\assets\clients\");
+
+
                 File.WriteAllText(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json", result);
                 Utils.log($"Downloaded & cached clients.");
             }

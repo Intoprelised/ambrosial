@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Ambrosial.Ambrosial.Classes
@@ -59,11 +54,6 @@ namespace Ambrosial.Ambrosial.Classes
             return JsonConvert.SerializeObject(this);
         }
 
-        public Client getDeserialized()
-        {
-            return this;
-        }
-
         public void downloadResources()
         {
             if (!bannerPhoto.Contains(@"\"))
@@ -91,6 +81,7 @@ namespace Ambrosial.Ambrosial.Classes
                         Utils.log($"Failed to download banner photo for {this.name}! Downloading fallback picture");
                         try
                         {
+                            // backup img
                             client.DownloadFile("https://picsum.photos/624/191?blur=10", truePath);
                             Utils.log("Downloaded fallback banner, cached.");
                         }

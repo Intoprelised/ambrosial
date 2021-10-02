@@ -52,46 +52,49 @@ namespace Ambrosial
 
         public void setupUI()
         {
+            // fonts
+            Font light = new Font("Yu Gothic UI Light", 10.25F);
+
 
             // setup buttons
             foreach (GameVersion ver in AmbrosialC.versionRegistry)
             {
                 Guna.UI2.WinForms.Guna2Button versionButton = new Guna.UI2.WinForms.Guna2Button();
                 versionButton.Animated = true;
-                versionButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                versionButton.BackColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
                 versionButton.CheckedState.Parent = versionButton;
                 versionButton.CustomImages.Parent = versionButton;
-                versionButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-                versionButton.Font = new System.Drawing.Font("Yu Gothic UI Light", 10.25F);
-                versionButton.ForeColor = System.Drawing.Color.White;
+                versionButton.FillColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+                versionButton.Font = light;
+                versionButton.ForeColor = Color.White;
                 versionButton.HoverState.Parent = versionButton;
-                versionButton.Location = new System.Drawing.Point(-1, buttonYoffset);
+                versionButton.Location = new Point(-1, buttonYoffset);
                 versionButton.ShadowDecoration.Enabled = true;
                 versionButton.ShadowDecoration.Parent = versionButton;
-                versionButton.Size = new System.Drawing.Size(180, 45);
+                versionButton.Size = new Size(180, 45);
                 versionButton.TabIndex = 5;
                 versionButton.Text = ver.name;
                 // startup panel
                 Panel normalPan = new Panel();
-                normalPan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
-                normalPan.Location = new System.Drawing.Point(176, 26);
-                normalPan.Size = new System.Drawing.Size(624, 433);
+                normalPan.BackColor = Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
+                normalPan.Location = new Point(176, 26);
+                normalPan.Size = new Size(624, 433);
 
                 // box
                 PictureBox boxx = new PictureBox();
                 boxx.BackgroundImage = global::Ambrosial.Properties.Resources.Ambrosial;
                 boxx.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-                boxx.Location = new System.Drawing.Point(240, 98);
-                boxx.Size = new System.Drawing.Size(151, 191);
+                boxx.Location = new Point(240, 98);
+                boxx.Size = new Size(151, 191);
                 boxx.TabIndex = 9;
                 boxx.TabStop = false;
 
                 // label unda box
                 Label boxlabel = new Label();
                 boxlabel.AutoSize = true;
-                boxlabel.Font = new System.Drawing.Font("Yu Gothic UI Light", 10.25F);
-                boxlabel.Location = new System.Drawing.Point(282, 270);
-                boxlabel.Size = new System.Drawing.Size(69, 19);
+                boxlabel.Font = light;
+                boxlabel.Location = new Point(282, 270);
+                boxlabel.Size = new Size(69, 19);
                 boxlabel.TabIndex = 3;
                 boxlabel.Text = "Ambrosial";
 
@@ -109,53 +112,54 @@ namespace Ambrosial
                     // side button
                     Guna.UI2.WinForms.Guna2Button clientButton = new Guna.UI2.WinForms.Guna2Button();
                     clientButton.Animated = true;
-                    clientButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                    clientButton.BackColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
                     clientButton.CheckedState.Parent = clientButton;
                     clientButton.CustomImages.Parent = clientButton;
-                    clientButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-                    clientButton.Font = new System.Drawing.Font("Yu Gothic UI Light", 10.25F);
-                    clientButton.ForeColor = System.Drawing.Color.White;
+                    clientButton.FillColor = Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+                    clientButton.Font = light;
+                    clientButton.ForeColor = Color.White;
                     clientButton.HoverState.Parent = clientButton;
-                    clientButton.Location = new System.Drawing.Point(-1, buttonYoffset);
+                    clientButton.Location = new Point(-1, buttonYoffset);
                     clientButton.ShadowDecoration.Enabled = true;
                     clientButton.ShadowDecoration.Parent = clientButton;
-                    clientButton.Size = new System.Drawing.Size(180, 45);
+                    clientButton.Size = new Size(180, 45);
                     clientButton.TabIndex = 0;
                     clientButton.Text = c.name;
                     buttonYoffset += 45;
                     if (!c.hasCachedPanel)
                     {
                         Utils.log($@"Panel for {c.name} is not cached, creating...");
+
                         // main panel
                         Panel pan = new Panel();
-                        pan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
-                        pan.Location = new System.Drawing.Point(176, 26);
-                        pan.Size = new System.Drawing.Size(624, 433);
+                        pan.BackColor = Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
+                        pan.Location = new Point(176, 26);
+                        pan.Size = new Size(624, 433);
                         clientButton.MouseDown += (sender, EventArgs) => { showPanel(sender, EventArgs, pan); };
 
                         // panel banner
                         PictureBox banner = new PictureBox();
                         banner.BackgroundImage = Image.FromFile(c.bannerphotoPath);
                         banner.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-                        banner.Location = new System.Drawing.Point(0, 1);
-                        banner.Size = new System.Drawing.Size(624, 191);
+                        banner.Location = new Point(0, 1);
+                        banner.Size = new Size(624, 191);
                         banner.TabIndex = 4;
                         banner.TabStop = false;
 
-                        // client lalbel
+                        // client label
                         Label lab = new Label();
                         lab.AutoSize = true;
-                        lab.Font = new System.Drawing.Font("Yu Gothic UI Light", 20.25F);
-                        lab.Location = new System.Drawing.Point(3, 195);
-                        lab.Size = new System.Drawing.Size(75, 37);
+                        lab.Font = new Font("Yu Gothic UI Light", 20.25F);
+                        lab.Location = new Point(3, 195);
+                        lab.Size = new Size(75, 37);
                         lab.Text = c.name;
 
                         // desc
                         Label desclabel = new Label();
                         desclabel.AutoSize = true;
-                        desclabel.Font = new System.Drawing.Font("Yu Gothic UI Light", 12.25F);
-                        desclabel.Location = new System.Drawing.Point(7, 229);
-                        desclabel.Size = new System.Drawing.Size(194, 23);
+                        desclabel.Font = new Font("Yu Gothic UI Light", 12.25F);
+                        desclabel.Location = new Point(7, 229);
+                        desclabel.Size = new Size(194, 23);
                         desclabel.TabIndex = 5;
                         desclabel.Text = $"{c.version} : ";
                         foreach (string line in c.types)
@@ -167,26 +171,27 @@ namespace Ambrosial
                         // latest update top text
                         Label latestUpd = new Label();
                         latestUpd.AutoSize = true;
-                        latestUpd.Font = new System.Drawing.Font("Yu Gothic UI Light", 14.25F);
-                        latestUpd.Location = new System.Drawing.Point(8, 252);
-                        latestUpd.Size = new System.Drawing.Size(125, 25);
+                        latestUpd.Font = new Font("Yu Gothic UI Light", 14.25F);
+                        latestUpd.Location = new Point(8, 252);
+                        latestUpd.Size = new Size(125, 25);
                         latestUpd.TabIndex = 6;
                         latestUpd.Text = "Latest update:";
 
                         // actual update text
                         Label updText = new Label();
                         updText.AutoSize = true;
-                        updText.Font = new System.Drawing.Font("Yu Gothic UI Light", 10.25F);
-                        updText.Location = new System.Drawing.Point(22, 280);
-                        updText.Size = new System.Drawing.Size(401, 19);
+                        updText.Font = light;
+                        updText.Location = new Point(22, 280);
+                        updText.Size = new Size(401, 19);
                         updText.Text = c.latestUpdateInfo;
 
-                        // separataor
+                        // separator 
                         Guna.UI2.WinForms.Guna2VSeparator separator = new Guna.UI2.WinForms.Guna2VSeparator();
                         separator.FillThickness = 3;
-                        separator.Location = new System.Drawing.Point(11, 280);
-                        separator.Size = new System.Drawing.Size(10, 19);
+                        separator.Location = new Point(11, 280);
+                        separator.Size = new Size(10, 19);
 
+                        // fix
                         Size size = TextRenderer.MeasureText(updText.Text, updText.Font);
                         updText.Height = size.Height;
                         separator.Height = size.Height;
@@ -194,20 +199,34 @@ namespace Ambrosial
                         // button
                         Guna.UI2.WinForms.Guna2Button launch = new Guna.UI2.WinForms.Guna2Button();
                         launch.Animated = true;
-                        launch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+                        launch.BackColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
                         launch.CheckedState.Parent = launch;
                         launch.CustomImages.Parent = launch;
-                        launch.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-                        launch.Font = new System.Drawing.Font("Yu Gothic UI Light", 10.25F);
-                        launch.ForeColor = System.Drawing.Color.White;
+                        launch.FillColor = Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+                        launch.Font = light;
+                        launch.ForeColor = Color.White;
                         launch.HoverState.Parent = launch;
-                        launch.Location = new System.Drawing.Point(226, 367);
+                        launch.Location = new Point(226, 367);
                         launch.ShadowDecoration.Enabled = true;
                         launch.ShadowDecoration.Parent = launch;
-                        launch.Size = new System.Drawing.Size(180, 45);
+                        launch.Size = new Size(180, 45);
                         launch.TabIndex = 6;
                         launch.Text = "Launch";
                         launch.MouseDown += (sender, EventArgs) => { installEvent(sender, EventArgs, c); };
+
+                        // open client folder
+                        Guna.UI2.WinForms.Guna2CircleButton folderOpen = new Guna.UI2.WinForms.Guna2CircleButton();
+                        folderOpen.Animated = true;
+                        folderOpen.FillColor = Color.FromArgb(40, 40, 40);
+                        folderOpen.Font = light;
+                        folderOpen.ForeColor = Color.White;
+                        folderOpen.Image = Properties.Resources.folder;
+                        folderOpen.Location = new Point(5, 385);
+                        folderOpen.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+                        folderOpen.Size = new Size(32, 32);
+                        folderOpen.ImageSize = new Size(16, 16);
+                        folderOpen.TabIndex = 7;
+                        folderOpen.MouseDown += (sender, EventArgs) => { folderEvent(sender, EventArgs, c); };
 
                         clientspanel.Controls.Add(clientButton);
                         this.Controls.Add(pan);
@@ -218,6 +237,7 @@ namespace Ambrosial
                         pan.Controls.Add(separator);
                         pan.Controls.Add(desclabel);
                         pan.Controls.Add(updText);
+                        pan.Controls.Add(folderOpen);
                         Utils.log($"Created {c.name}'s panel");
                         c.hasCachedPanel = true;
                     }
@@ -233,6 +253,12 @@ namespace Ambrosial
                 Utils.log("showPanel event triggered for panel " + p.Name);
                 p.BringToFront();
             }
+        }
+
+        void folderEvent(object sender, MouseEventArgs e, Client c)
+        {
+            if (e.Button == MouseButtons.Left)
+                Process.Start("explorer.exe", Environment.GetEnvironmentVariable("LocalAppData") + @"\Ambrosial\" + $@"assets\clients\{c.version}\{c.name}\");
         }
 
         void installEvent(object sender, MouseEventArgs e, Client c)
@@ -307,13 +333,6 @@ namespace Ambrosial
                     new DeveloperForm().Show();
                 }
             }
-        }
-
-        private void guna2Button2_Click(object sender, EventArgs e)
-        {
-            Client test = new Client("Internal test", new string[] { "hi" }, "https://cdn.discordapp.com/attachments/787223049333899265/832122943076565052/horian.dll", "no", "no", "Internal test.dll", ClientTypes.Type.Dll, "1.16.220", "1.16.220", false);
-            test.install();
-
         }
 
         private void panel4_DoubleClick(object sender, EventArgs e)

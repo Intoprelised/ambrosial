@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -29,7 +29,8 @@ namespace Ambrosial.Ambrosial
             Packet jsonpacket = new Packet(null);
 
             // URL to encrypted JSON with serialized clients
-            string requestEnd = "https://sefrum.tech/Ambrosial/serverclients.json";
+            // Temporary fix (hopefully): change request URL to GitHub
+            string requestEnd = "https://raw.githubusercontent.com/disepi/ambrosial/main/cachedclients.json";
 
         getPkt:
             // Attempt to get info
@@ -60,9 +61,7 @@ namespace Ambrosial.Ambrosial
                 if (dialogResult == DialogResult.Yes)
                 {
                     if (File.Exists(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json"))
-                    {
                         jsonpacket = new Packet(File.ReadAllText(Utils.ambrosialPath + $@"\assets\clients\cachedclients.json"));
-                    }
                     else
                     {
                         DialogResult dialogResult2 = MessageBox.Show("Cache has not been made yet. Do you wish to redirect the request URL?", "Error", MessageBoxButtons.YesNo);
@@ -75,14 +74,10 @@ namespace Ambrosial.Ambrosial
                                 goto getPkt;
                             }
                             else
-                            {
                                 Process.GetCurrentProcess().Kill();
-                            }
                         }
                         else
-                        {
                             Process.GetCurrentProcess().Kill();
-                        }
                     }
                 }
                 else

@@ -314,6 +314,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Other\Ambrosial.ico" />
+    <None Include="Resources\share.png" />
     <None Include="Resources\folder.png" />
     <None Include="Resources\Ambrosial.png" />
   </ItemGroup>

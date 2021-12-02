@@ -43,6 +43,7 @@
             this.Username = new System.Windows.Forms.Label();
             this.Version = new System.Windows.Forms.Label();
             this.Animate = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
+            this.reload = new Guna.UI2.WinForms.Guna2CircleButton();
             this.topBar.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -113,6 +114,7 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
+            this.panel4.Controls.Add(this.reload);
             this.panel4.Controls.Add(this.settings);
             this.panel4.Controls.Add(this.addnew);
             this.panel4.Controls.Add(this.Username);
@@ -186,6 +188,24 @@
             this.Animate.AnimationType = Guna.UI2.WinForms.Guna2AnimateWindow.AnimateWindowType.AW_BLEND;
             this.Animate.TargetForm = this;
             // 
+            // reload
+            // 
+            this.reload.Animated = true;
+            this.reload.CheckedState.Parent = this.reload;
+            this.reload.CustomImages.Parent = this.reload;
+            this.reload.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.reload.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.reload.ForeColor = System.Drawing.Color.White;
+            this.reload.HoverState.Parent = this.reload;
+            this.reload.Image = ((System.Drawing.Image)(resources.GetObject("reload.Image")));
+            this.reload.Location = new System.Drawing.Point(100, 17);
+            this.reload.Name = "reload";
+            this.reload.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.reload.ShadowDecoration.Parent = this.reload;
+            this.reload.Size = new System.Drawing.Size(26, 25);
+            this.reload.TabIndex = 7;
+            this.reload.Click += new System.EventHandler(this.reload_Click);
+            // 
             // Launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -226,6 +246,7 @@
         private Guna.UI2.WinForms.Guna2AnimateWindow Animate;
         private Guna.UI2.WinForms.Guna2CircleButton addnew;
         private Guna.UI2.WinForms.Guna2CircleButton settings;
+        private Guna.UI2.WinForms.Guna2CircleButton reload;
     }
 }
 

@@ -30,12 +30,16 @@ namespace Ambrosial.Ambrosial.Classes
         public string clientVersion;
         [JsonProperty]
         public bool storedInZip;
+        [JsonProperty]
+        public bool ignoreCache;
+        [JsonProperty]
+        public string externalLink = "";
         [JsonIgnore]
         public string bannerphotoPath;
         [JsonIgnore]
         public bool hasCachedPanel = false;
 
-        public Client(string name, string[] types, string link, string bannerPhoto, string latestUpdateInfo, string exeName, ClientTypes.Type clientType, string version, string clientVersion, bool storedInZip)
+        public Client(string name, string[] types, string link, string bannerPhoto, string latestUpdateInfo, string exeName, ClientTypes.Type clientType, string version, string clientVersion, bool storedInZip, bool ignoreCache = false)
         {
             this.name = name;
             this.types = types;
@@ -47,6 +51,7 @@ namespace Ambrosial.Ambrosial.Classes
             this.version = version;
             this.clientVersion = clientVersion;
             this.storedInZip = storedInZip;
+            this.ignoreCache = ignoreCache;
         }
 
         public string getSerialized()
@@ -110,6 +115,23 @@ namespace Ambrosial.Ambrosial.Classes
             Utils.log($"Attempted to create dir {pathToFolder}");
             if (File.Exists(pathToFolder + exeName))
                 isClientCached = true;
+
+            // If client requires to be dynamically downloaded all the time
+            if (ignoreCache)
+            {
+                isClientCached = false;
+                // Delete otherwise DownloadFile will throw exception
+                try
+                {
+                    File.Delete(pathToFolder + exeName);
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't replace client's file. Is the file open/injected?", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
             if (this.clientType == ClientTypes.Type.Exe)
             {
                 Utils.log($"Client {name} seems to be an EXE type file, downloading...");
@@ -223,9 +245,7 @@ namespace Ambrosial.Ambrosial.Classes
                     isClientCached = true;
                 }
                 else
-                {
                     Utils.log($"{name} seems to be cached! Canceled download.");
-                }
                 foreach (FileInfo file in new DirectoryInfo(pathToFolder).GetFiles())
                 {
                     if (!file.FullName.Contains(exeName) && file.FullName.Contains(@"\"))
@@ -249,17 +269,11 @@ namespace Ambrosial.Ambrosial.Classes
                         MessageBox.Show($"This utility is not compatible with your version. Please downgrade/upgrade to be able to use it. (You are on {AmbrosialC.installedVersion}, required version is {this.version}", "Version mismatch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    initInstall();
                 }
-                else
-                {
-                    initInstall();
-                }
+                initInstall();
             }
             else
-            {
                 MessageBox.Show("Open Minecraft first!", "Minecraft process not found.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
     }

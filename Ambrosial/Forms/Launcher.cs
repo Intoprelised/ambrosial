@@ -23,13 +23,25 @@ namespace Ambrosial
 
         private void Launcher_Load(object sender, EventArgs e)
         {
+            // Have no clue why but for some people these fail so I just put them into multiple try catch statements
             try
             {
                 Version.Text = AmbrosialC.installedVersion;
-                Username.Text = new StreamReader(Environment.GetEnvironmentVariable("LocalAppData") + @"\packages\microsoft.minecraftuwp_8WEKYB3D8BBWE\localstate\games\com.mojang\minecraftpe\options.txt").ReadLine().Replace("mp_username:", "");
-                setupUI();
             }
             catch { }
+            try
+            {
+                Username.Text = new StreamReader(Environment.GetEnvironmentVariable("LocalAppData") + @"\packages\microsoft.minecraftuwp_8WEKYB3D8BBWE\localstate\games\com.mojang\minecraftpe\options.txt").ReadLine().Replace("mp_username:", "");
+            }
+            catch { }
+            try
+            {
+                setupUI();
+            }
+            catch(Exception err) {
+                MessageBox.Show("Couldn't setup the clients panel. Some of the reasons for this are:\n- Your system is missing the Yu Gothic UI Light font\n- Your internet connection got disrupted\n- Your system doesn't support specific .NET features\n\nPlease try the reload panel button. If the reload button does not work, please report this issue in the Discord. Sorry for the inconvenience!\n\nError:\n" + err.Message + "\n\nStacktrace:\n\n" + err.StackTrace, "Failed to setup panels!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             this.Visible = true;
             if (Utils.i >= 1)
             {
@@ -52,9 +64,9 @@ namespace Ambrosial
 
         public void setupUI()
         {
+            buttonYoffset = 2;
             // fonts
             Font light = new Font("Yu Gothic UI Light", 10.25F);
-
 
             // setup buttons
             foreach (GameVersion ver in AmbrosialC.versionRegistry)
@@ -126,6 +138,7 @@ namespace Ambrosial
                     clientButton.TabIndex = 0;
                     clientButton.Text = c.name;
                     buttonYoffset += 45;
+                    clientspanel.Controls.Add(clientButton);
                     if (!c.hasCachedPanel)
                     {
                         Utils.log($@"Panel for {c.name} is not cached, creating...");
@@ -163,9 +176,7 @@ namespace Ambrosial
                         desclabel.TabIndex = 5;
                         desclabel.Text = $"{c.version} : ";
                         foreach (string line in c.types)
-                        {
                             desclabel.Text += line + " : ";
-                        }
                         desclabel.Text = Utils.TrimEnd(desclabel.Text, " : ");
 
                         // latest update top text
@@ -228,7 +239,20 @@ namespace Ambrosial
                         folderOpen.TabIndex = 7;
                         folderOpen.MouseDown += (sender, EventArgs) => { folderEvent(sender, EventArgs, c); };
 
-                        clientspanel.Controls.Add(clientButton);
+                        // open external client link 
+                        Guna.UI2.WinForms.Guna2CircleButton externalLinkButton = new Guna.UI2.WinForms.Guna2CircleButton();
+                        externalLinkButton.Animated = true;
+                        externalLinkButton.FillColor = Color.FromArgb(40, 40, 40);
+                        externalLinkButton.Font = light;
+                        externalLinkButton.ForeColor = Color.White;
+                        externalLinkButton.Image = Properties.Resources.share;
+                        externalLinkButton.Location = new Point(37, 385);
+                        externalLinkButton.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+                        externalLinkButton.Size = new Size(32, 32);
+                        externalLinkButton.ImageSize = new Size(16, 16);
+                        externalLinkButton.TabIndex = 7;
+                        externalLinkButton.MouseDown += (sender, EventArgs) => { externalClientLinkEvent(sender, EventArgs, c); };
+
                         this.Controls.Add(pan);
                         pan.Controls.Add(banner);
                         pan.Controls.Add(lab);
@@ -238,6 +262,7 @@ namespace Ambrosial
                         pan.Controls.Add(desclabel);
                         pan.Controls.Add(updText);
                         pan.Controls.Add(folderOpen);
+                        pan.Controls.Add(externalLinkButton);
                         Utils.log($"Created {c.name}'s panel");
                         c.hasCachedPanel = true;
                     }
@@ -259,6 +284,25 @@ namespace Ambrosial
         {
             if (e.Button == MouseButtons.Left)
                 Process.Start("explorer.exe", Environment.GetEnvironmentVariable("LocalAppData") + @"\Ambrosial\" + $@"assets\clients\{c.version}\{c.name}\");
+        }
+
+        void externalClientLinkEvent(object sender, MouseEventArgs e, Client c)
+        {
+            if(c.externalLink.Length < 5)
+            {
+                MessageBox.Show("There is no external link/website for this client!", "No external link", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                if (e.Button == MouseButtons.Left)
+                    Process.Start(c.externalLink);
+            }
+            catch
+            {
+                MessageBox.Show("Failed to launch external link. Please contact the developers.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         void installEvent(object sender, MouseEventArgs e, Client c)
@@ -383,6 +427,19 @@ namespace Ambrosial
         private void guna2CircleButton1_Click(object sender, EventArgs e)
         {
             new SettingsForm().Show();
+        }
+
+        private void reload_Click(object sender, EventArgs e)
+        {
+            clientspanel.Controls.Clear();
+            clientspanel.VerticalScroll.Value = 0;
+            foreach (Client c in AmbrosialC.clientRegistry)
+                c.hasCachedPanel = false;
+            try
+            {
+                setupUI();
+            }
+            catch { }
         }
     }
 }

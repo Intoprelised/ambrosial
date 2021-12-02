@@ -30,7 +30,7 @@ namespace Ambrosial.Ambrosial
 
             // URL to encrypted JSON with serialized clients
             // Temporary fix (hopefully): change request URL to GitHub
-            string requestEnd = "https://raw.githubusercontent.com/disepi/ambrosial/main/cachedclients.json";
+            string requestEnd = "https://raw.githubusercontent.com/disepi/ambrosial/main/clientEndpoint.json";
 
         getPkt:
             // Attempt to get info

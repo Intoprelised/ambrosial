@@ -1,19 +1,44 @@
-# ambrosial
-> A launcher made for MC:BE mods
-> 
-Ambrosial is a launcher for Minecraft: Bedrock Edition (specifically Windows 10 Edition) modifications. The source code is here for you to check for any malicious code, or if you're just curious.
+<h3 align="center"><img src="https://user-images.githubusercontent.com/54753631/177060465-cfa6fa0f-727a-4f3e-b86d-45d4b844c4c9.png" alt="Ambrosial"></h3>
+<h1 align="center">ambrosial</h1>
 
-## How it works
-Ambrosial sends a download request to the server to download a encrypted JSON file (can be generated using the developer form) and then decrypts it and adds the modification's buttons and such to a windows form, then attaches events to the buttons. You can see how this works in more detail in the source code.
+Ambrosial is a launcher for Minecraft: Windows 10 Edition modifications.
 
-## Final notes
-Ambrosial uses multiple NuGET packages, you may need to install these packages after downloading the source if you wish to build it. The list of required packages are below.
+## Features
+- [x] Server stored modifications
+- `Ensures you are always up to date by retrieving the latest modifications from the server.`
+- [x] Fast & reliable
+- `Ambrosial requires very little power & network usage, downloads and injections are almost instant.`
+- [x] Download caching
+- `Any download made is stored for next usage, minimizing bandwidth and allowing for offline use.`
+- [x] Safe & open source
+- `Ambrosial is trusted by thousands of users and has the source code available for download.`
+- [x] Ease of use
+- `Download and launch new modifications in a single click, no extra work needed.`
+- [x] Large range of modifications
+- `Ambrosial has a wide collection of modifications, your favourites & more will be included.`
 
-## Required packages
-DiscordRichPresence
+## Download & installation
+Ambrosial is portable and very easy to install. Simply [click here](https://github.com/disepi/ambrosial/releases) and download the **latest** `Ambrosial.exe` listed at the top. Once you have downloaded the executable, open it and installation is done. Don't get confused with the source code download - you will not need to download it if you do not wish to modify it.
 
-Costura.Fody
+## Troubleshooting
+If you have any problem running Ambrosial or any included modification, try these listed fixes:
+#### Installing Visual C++ Redistributable
+- Some included modifications requires this redist to operate. If you do not already have it installed, it can be found [here](https://aka.ms/vs/17/release/vc_redist.x64.exe).
+#### Installing .NET Framework Redistributable
+- Ambrosial requires .NET Framework in order to open. The download for it can be found [here](https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net472-web-installer).
 
-Newtonsoft.JSON
+`If you require any other help, please open an issue.`
 
-Guna.UI2.WinForms
+## Building from source
+### Building the executable
+- Ambrosial runs on .NET Framework 4.7.2, you will need to install the SDK for it before proceeding. Visual Studio 2022/2019 can be used for building Ambrosial.
+- Once opened in Visual Studio, you will need to install multiple NuGET packages using the manager. The list of required packages are as listed:
+
+  - [x] DiscordRichPresence
+  - [x] Costura.Fody
+  - [x] Newtonsoft.JSON
+  - [x] Guna.UI2.WinForms
+- Use the Build Solution option in Visual Studio to compile the executable. It is advised to compile on Release mode.
+
+### Creating client collection for serialization/deserialization
+- The developer form has tools to obtain the current encrypted collection string, decrypt string to obtain the raw JSON and encrypt string to encrypt raw JSON. If you know what you are doing, it is simple to edit the collection string. If you wish to change the web endpoint which it collects the string from, look at the `requestEnd` string property in `setupClients()` located inside the `.\Ambrosial\AmbrosialC.cs` file.
